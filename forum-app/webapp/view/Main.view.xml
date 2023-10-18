@@ -1,0 +1,17 @@
+<mvc:View
+	controllerName="sov.comp.amalitech.forum.controller.Main"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<Page
+		title="{i18n>appTitle}">
+
+		<List items="{thread>/Thread}">
+			<items>
+				<StandardListItem title="{thread>title}"/>
+			</items>
+		</List>
+	</Page>
+
+</mvc:View>
