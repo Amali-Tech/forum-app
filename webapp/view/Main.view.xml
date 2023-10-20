@@ -1,0 +1,31 @@
+<mvc:View
+	controllerName="sov.comp.amalitech.forum.controller.Main"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<Page
+		title="{i18n>appTitle}">
+
+		<NotificationList items="{path: 'generalThread>/Threads', expand: 'Author'}">
+			<items>
+				<NotificationListItem
+					title="{generalThread>title}"
+					description="{generalThread>content}"
+					showCloseButton="false"
+					datetime="{generalThread>createdAt}"
+					unread="false"
+					press="onListItemPress"
+					authorName="{path: 'generalThread>author_ID', formatter: '.getAuthorName'}"
+					authorPicture="https://i.pinimg.com/originals/b2/1d/96/b21d961b9bdabd675ade826dd35f0047.jpg"
+				>
+				<buttons width="200px">
+					<Button text="{generalThread>upvotes}" icon="sap-icon://thumb-up"></Button>
+					<Button text="{generalThread>downvotes}" icon="sap-icon://thumb-down"></Button>
+				</buttons>
+				</NotificationListItem>
+			</items>
+		</NotificationList>
+	</Page>
+
+</mvc:View>
