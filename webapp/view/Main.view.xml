@@ -20,8 +20,8 @@
 					authorPicture="https://i.pinimg.com/originals/b2/1d/96/b21d961b9bdabd675ade826dd35f0047.jpg"
 				>
 				<buttons width="200px">
-					<Button text="{generalThread>upvotes}" icon="sap-icon://thumb-up"></Button>
-					<Button text="{generalThread>downvotes}" icon="sap-icon://thumb-down"></Button>
+					<Button text="{generalThread>upvotes}" icon="sap-icon://thumb-up"/>
+					<Button text="{generalThread>downvotes}" icon="sap-icon://thumb-down"/>
 				</buttons>
 				</NotificationListItem>
 			</items>

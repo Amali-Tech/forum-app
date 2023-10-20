@@ -1,0 +1,7 @@
+<mvc:View
+	controllerName="sov.comp.amalitech.forum.controller.Detail"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+    <Text text="Hello Wappi"/>
+</mvc:View>

@@ -1,5 +1,4 @@
 import MessageBox from "sap/m/MessageBox";
-import JSONModel from "sap/ui/model/json/JSONModel";
 import BaseController from "./BaseController";
 import formatter from "../model/formatter";
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
