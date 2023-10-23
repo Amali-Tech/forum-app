@@ -85,8 +85,8 @@
 					"target": "main"
 				},
 				{
-					"pattern": "detail",
-					"detail":"detail",
+					"pattern": "detail/{threadID}",
+					"name":"detail",
 					"target": "detail"
 				}
 			],
@@ -97,7 +97,7 @@
 				},
 				"detail":{
 					"viewId": "detail",
-					"viewName": "Detail"
+					"viewName": "detail"
 				}
 			}
 		}

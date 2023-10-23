@@ -37,6 +37,11 @@ export default abstract class BaseController extends Controller {
 		return oModel.getResourceBundle();
 	}
 
+	public getResourceBundleAsText(key: string): string {
+		const oModel = this.getOwnerComponent().getModel("i18n") as ResourceModel;
+		return (oModel.getResourceBundle() as ResourceBundle).getText(key);
+	}
+
 	/**
 	 * Convenience method for getting the view model by name in every controller of the application.
 	 * @param [sName] The model name

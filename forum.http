@@ -1,0 +1,67 @@
+
+###
+#
+#  Browse Threads with (author) associations
+#
+GET http://localhost:4004/odata/v4/service/thread/Threads?$expand=author
+
+###
+#
+#  Browse Threads 
+#
+GET http://localhost:4004/odata/v4/service/thread/Threads
+
+###
+#
+#  Browse Authors
+#
+GET http://localhost:4004/odata/v4/service/thread/Authors
+
+###
+#
+#  Browse Answers
+#
+GET http://localhost:4004/odata/v4/service/thread/Answers
+
+###
+#
+#  Browse Thread with (answer) associations
+#
+GET http://localhost:4004/odata/v4/service/thread/Threads?$expand=ans
+
+###
+#
+#  Delete Thread 
+#
+POST http://localhost:4004/odata/v4/service/thread/deleteThread
+Content-Type: application/json
+
+{
+    "ID": "6ba7b811-9dad-11d1-80b4-00c04fd430c8"
+}
+
+###
+#
+#  upvote Thread 
+#
+POST http://localhost:4004/odata/v4/service/thread/upvoteThread
+Content-Type: application/json
+
+{
+    "ID": "6ba7b811-9dad-11d1-80b4-00c04fd430c8"
+}
+
+###
+#
+#  downvote Thread 
+#
+POST http://localhost:4004/odata/v4/service/thread/downvoteThread
+Content-Type: application/json
+
+{
+    "ID": "6ba7b811-9dad-11d1-80b4-00c04fd430c8"
+}
+
+
+# testing mic 1 $ 2
+

@@ -7,9 +7,10 @@
 	<Page
 		title="{i18n>appTitle}">
 
-		<NotificationList items="{path: 'generalThread>/Threads', expand: 'Author'}">
+		<NotificationList items="{path: 'generalThread>/Threads', parameters: {operationMode: 'Server'}}">
 			<items>
 				<NotificationListItem
+					type="Navigation"
 					title="{generalThread>title}"
 					description="{generalThread>content}"
 					showCloseButton="false"
@@ -22,6 +23,8 @@
 				<buttons width="200px">
 					<Button text="{generalThread>upvotes}" icon="sap-icon://thumb-up"/>
 					<Button text="{generalThread>downvotes}" icon="sap-icon://thumb-down"/>
+
+					<Button text="{i18n>threadBtnDelete}" icon="sap-icon://delete" press=".onDelete"/>
 				</buttons>
 				</NotificationListItem>
 			</items>
