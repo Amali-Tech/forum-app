@@ -3,32 +3,49 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
-
-	<Page
-		title="{i18n>appTitle}">
-
-		<NotificationList items="{path: 'generalThread>/Threads', parameters: {operationMode: 'Server'}}">
-			<items>
-				<NotificationListItem
-					type="Navigation"
-					title="{generalThread>title}"
-					description="{generalThread>content}"
-					showCloseButton="false"
-					datetime="{generalThread>createdAt}"
-					unread="false"
-					press="onListItemPress"
-					authorName="{path: 'generalThread>author_ID', formatter: '.getAuthorName'}"
-					authorPicture="https://i.pinimg.com/originals/b2/1d/96/b21d961b9bdabd675ade826dd35f0047.jpg"
-				>
-				<buttons width="200px">
-					<Button text="{generalThread>upvotes}" icon="sap-icon://thumb-up"/>
-					<Button text="{generalThread>downvotes}" icon="sap-icon://thumb-down"/>
-
-					<Button text="{i18n>threadBtnDelete}" icon="sap-icon://delete" press=".onDelete"/>
-				</buttons>
-				</NotificationListItem>
-			</items>
-		</NotificationList>
+	<Page		title="{i18n>appTitle}" titleAlignment="Center" showFooter="true" >
+		<content>
+			<Panel class="sapUiMediumMarginTop" headerText="{i18n>createThreadHeader}">
+				<content>
+					<VBox alignItems="center" justifyContent="center">
+						<Label text="{i18n>createThreadInputTitle}"/>
+						<Input value="{/tweet/title}"  placeholder="{i18n>createThreadTitlePlaceHolder}" valueLiveUpdate="true"/>
+					</VBox>
+					<VBox alignItems="center" justifyContent="center">
+						<Label text="{i18n>createThreadInputContent}"/>
+						<Textarea value="{/tweet/content}" placeholder="{i18n>createThreadContentPlaceHolder}" valueLiveUpdate="true" width="100%"/>
+					</VBox>
+					<HBox justifyContent="SpaceBetween" width="100%">
+						<Button text="Create" press=".onCreateThread" icon="sap-icon://write-new" />
+						<Button text="Clear" press=".onClearThreadFields" icon="sap-icon://clear-all"/>
+					</HBox>
+				</content>
+			</Panel>
+			<Panel class="sapUiMediumMarginTop" headerText="Threads">
+				<NotificationList id="threadList" items="{path: 'generalThread>/Threads', parameters: {operationMode: 'Server'}}">
+					<items>
+						<NotificationListItem
+										type="Navigation"
+										title="{generalThread>title}"
+										description="{generalThread>content}"
+										showCloseButton="false"
+										datetime="{generalThread>modifiedAt}"
+										unread="false"
+										press="onListItemPress"
+										authorName="{path: 'generalThread>author_ID', formatter: '.getAuthorName'}"
+										authorPicture="https://i.pinimg.com/originals/b2/1d/96/b21d961b9bdabd675ade826dd35f0047.jpg"
+						>
+							<buttons width="200px">
+								<Button text="{path: 'generalThread>upvotes', formatter: '.formatter.voteFormatter'}" icon="sap-icon://thumb-up" press=".onUpVote"/>
+								<Button text="{path: 'generalThread>downvotes', formatter: '.formatter.voteFormatter'}"  icon="sap-icon://thumb-down" press=".onDownVote"/>
+								<Button text="{i18n>threadBtnDelete}" icon="sap-icon://delete" press=".onDelete"/>
+							</buttons>
+						</NotificationListItem>
+					</items>
+				</NotificationList>
+			</Panel>
+		</content>
 	</Page>
+
 
 </mvc:View>

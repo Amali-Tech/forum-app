@@ -30,6 +30,22 @@ GET http://localhost:4004/odata/v4/service/thread/Answers
 GET http://localhost:4004/odata/v4/service/thread/Threads?$expand=ans
 
 ###
+# Create new thread
+#
+POST http://localhost:4004/odata/v4/service/thread/Threads
+Content-Type: application/json
+
+{
+	"title": "My first thread",
+	"author_ID": "99c1b2ea-53e3-48f9-b3d3-88f449af3bbf",
+	"content": "This is the content of my first thread",
+	"upvotes": 10,
+	"downvotes": 2,
+	"updatedAt": "2022-02-21T13:25:00Z"
+}
+
+
+###
 #
 #  Delete Thread 
 #

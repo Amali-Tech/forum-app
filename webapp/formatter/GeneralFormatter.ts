@@ -1,4 +1,5 @@
 import ODataModel from "sap/ui/model/odata/v4/ODataModel";
+import {iAuthor} from "sov/comp/amalitech/forum/utils/Types";
 
 export async function GetUserDetails(id: string, oModel: ODataModel): Promise<iAuthor> {
   // const oModel = this.getModel("generalThread") as ODataModel;
@@ -9,11 +10,3 @@ export async function GetUserDetails(id: string, oModel: ODataModel): Promise<iA
   return selectedAuthor || {name:"winston"} as iAuthor;
 }
 
-export interface iAuthor {
-  name: string
-  createdAt: string,
-  createdBy: string,
-  modifiedAt: string,
-  modifiedBy: string,
-  ID: string,
-}

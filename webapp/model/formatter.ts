@@ -16,4 +16,6 @@ export default {
 			return value;
 		}
 	}
+	,
+	voteFormatter: (votes: number)=> votes || 0
 }
