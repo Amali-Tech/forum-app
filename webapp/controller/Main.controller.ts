@@ -5,7 +5,7 @@ import {GetUserDetails} from "sov/comp/amalitech/forum/formatter/GeneralFormatte
 import Event from "sap/ui/base/Event";
 import MessageToast from "sap/m/MessageToast";
 import NotificationListItem from "sap/m/NotificationListItem";
-import {IBasicTweet, IoBasicTweet, IoTweet, MODELNAMES} from "sov/comp/amalitech/forum/utils/Types";
+import {IBasicTweet, IoBasicTweet, IoTweet, MODELNAMES, VIEWIDS} from "sov/comp/amalitech/forum/utils/Types";
 import JSONModel from "sap/ui/model/json/JSONModel";
 import Button from "sap/m/Button";
 import List from "sap/m/List";
@@ -13,6 +13,9 @@ import ODataListBinding from "sap/ui/model/odata/v2/ODataListBinding";
 import formatter from "sov/comp/amalitech/forum/model/formatter";
 import Dialog from "sap/m/Dialog";
 import Control from "sap/ui/core/Control";
+import Filter from "sap/ui/model/Filter";
+import FilterOperator from "sap/ui/model/FilterOperator";
+import SearchField from "sap/m/SearchField";
 
 /**
  * @namespace sov.comp.amalitech.forum.controller
@@ -29,9 +32,10 @@ export default class Main extends BaseController {
     }
   }
   oBasicTweet: IoBasicTweet = {
-    update:{
-      title:"",
-      content:""
+    update: {
+      id:"",
+      title: "",
+      content: ""
     }
   }
   formatter = formatter
@@ -46,48 +50,37 @@ export default class Main extends BaseController {
   }
 
   private getODataPropertyRelativePath(source: any, target: string, head: int, sub: int): string {
-    return "/".concat(this.getODataProperty(source, head)).concat("/").concat(this.getODataSubProperty(source,target, sub))
+    return "/".concat(this.getODataProperty(source, head)).concat("/").concat(this.getODataSubProperty(source, target, sub))
   }
 
   public onInit() {
     this.getView().setModel(new JSONModel(this.oData));
   }
 
-  //@ts-ignore
-  public onListItemPress(oEvent): void {
-    // get the item
-    const oItem = oEvent.getSource();
-    //get router
-    const oRouter = this.getOwnerComponent().getRouter();
-    //navigate
-    console.dir(window.encodeURIComponent(oItem.getBindingContext(MODELNAMES.generalThread).getPath().substring(1)))
-    oRouter.navTo(RouterConfig.detail, {
-      threadID: window.encodeURIComponent(oItem.getBindingContext(MODELNAMES.generalThread).getPath().substring(1))
-    })
-  }
-
-  public getProfilePicture(): string {
-    console.log("___boomer___")
-    let randomNum = Math.floor(Math.random() * 2);
-    return "https://i.pinimg.com/originals/8f/ee/fa/8feefa47ea7f3f48a5ada1ed8ba7b59d.jpg"
-  }
-
   async getAuthorName(id: string): Promise<string> {
     return GetUserDetails(id, this.getModel(MODELNAMES.generalThread) as ODataModel).then(_auth => _auth.name)
+  }
+
+  public GetLocalModel(localModelName: string): IBasicTweet {
+    const oTweetModel = this.getModel(localModelName) as JSONModel
+    const target = Object.keys(this.oBasicTweet)[0];
+    return {
+      id: oTweetModel.getProperty(this.getODataPropertyRelativePath(this.oBasicTweet, target, 0, 0)),
+      title: oTweetModel.getProperty(this.getODataPropertyRelativePath(this.oBasicTweet, target, 0, 1)),
+      content: oTweetModel.getProperty(this.getODataPropertyRelativePath(this.oBasicTweet, target, 0, 2))
+    } as IBasicTweet;
   }
 
   private async onCreateThread(): Promise<void> {
     const oModel = this.getModel() as JSONModel;
     const target = Object.keys(this.oData)[0]
-    const sTitle = oModel.getProperty(this.getODataPropertyRelativePath(this.oData,target, 0, 1)) as string
-    const sContent = oModel.getProperty(this.getODataPropertyRelativePath(this.oData, target,0, 2)) as string
-
+    const sTitle = oModel.getProperty(this.getODataPropertyRelativePath(this.oData, target, 0, 1)) as string
+    const sContent = oModel.getProperty(this.getODataPropertyRelativePath(this.oData, target, 0, 2)) as string
     //save this thread
-
     const oGeneralModel = this.getModel(MODELNAMES.generalThread) as ODataModel;
     //bind to the create thread context
     try {
-      const oList = this.byId("threadList") as List;
+      const oList = this.byId(VIEWIDS.threadListID) as List;
       const oBinding = oList.getBinding("items");
       const data: IBasicTweet = {
         title: sTitle,
@@ -106,12 +99,67 @@ export default class Main extends BaseController {
 
   public onClearThreadFields(): void {
     const target = Object.keys(this.oData)[0]
-    const sTitlePath = this.getODataPropertyRelativePath(this.oData, target,0, 1);
-    const sContentPath = this.getODataPropertyRelativePath(this.oData, target,0, 2);
+    const sTitlePath = this.getODataPropertyRelativePath(this.oData, target, 0, 1);
+    const sContentPath = this.getODataPropertyRelativePath(this.oData, target, 0, 2);
     const oModel = this.getModel() as JSONModel;
     oModel.setProperty(sTitlePath, "")
     oModel.setProperty(sContentPath, "")
     MessageToast.show("Cleared")
+  }
+
+  public onSearchThread(oEvent: Event){
+    //build filter array
+    const aFilter = [];
+    const sQuery = oEvent.getParameter("query") as string;
+    console.log(sQuery)
+    if(sQuery){
+      //"title", FilterOperator.Contains, sQuery
+      aFilter.push(new Filter({
+        path: "title",
+        operator: FilterOperator.Contains,
+        value1: sQuery.toLowerCase(),
+        caseSensitive: false
+      }))
+      // aFilter.push(new Filter("title", FilterOperator.Contains, sQuery))
+    }
+
+    // filter binding
+    const oList = this.byId(VIEWIDS.threadListID);
+    const oBinding = oList.getBinding("items") as ODataListBinding;
+    oBinding.filter(aFilter);
+  }
+
+  //@ts-ignore
+  public onListItemPress(oEvent): void {
+    // get the item
+    const oItem = oEvent.getSource();
+    //get router
+    const oRouter = this.getOwnerComponent().getRouter();
+    //navigate
+    oRouter.navTo(RouterConfig.detail, {
+      threadID: window.encodeURIComponent(oItem.getBindingContext(MODELNAMES.generalThread).getPath().substring(1))
+    })
+  }
+
+  public async onUpdateTweet() {
+    const basicTweet = this.GetLocalModel(MODELNAMES.tweetUpdate)
+    const oModel = this.getModel(MODELNAMES.generalThread) as ODataModel;
+    console.log(basicTweet);
+    if (basicTweet.id) {
+      //commence the delete procedure
+      try {
+        const response = await oModel
+          .bindContext('/updateThread(...)')
+          .setParameter("ID", basicTweet.id)
+          .setParameter("title", basicTweet.title)
+          .setParameter("content", basicTweet.content)
+          .execute();
+        oModel.refresh();
+        this.onCloseDialog();
+      } catch (e) {
+      }
+    }
+
   }
 
   async onDelete(oEvent: Event): Promise<void> {
@@ -138,11 +186,14 @@ export default class Main extends BaseController {
     const oItem = oEvent.getSource() as NotificationListItem;
     const oItemCtxt = oItem.getBindingContext(MODELNAMES.generalThread);
 
+    const update = {
+      id: oItemCtxt.getProperty("ID") as string,
+      title: oItemCtxt.getProperty("title") as string,
+      content: oItemCtxt.getProperty("content") as string
+    }
+
     const oData: IoBasicTweet = {
-      update: {
-        title: oItemCtxt.getProperty("title") as string,
-        content: oItemCtxt.getProperty("content") as string
-      }
+      update
     }
     this.setModel(new JSONModel(oData), MODELNAMES.tweetUpdate)
 
@@ -156,17 +207,6 @@ export default class Main extends BaseController {
     }).catch((err) => {
       console.dir(err)
     })
-  }
-
-  onUpdateTweet() {
-    console.log("data --->>> ")
-    const oTweetModel = this.getModel(MODELNAMES.tweetUpdate) as JSONModel
-    const target = Object.keys(this.oBasicTweet)[0]
-    const data = {
-      title: oTweetModel.getProperty(this.getODataPropertyRelativePath(this.oBasicTweet, target,0, 0)),
-      content: oTweetModel.getProperty(this.getODataPropertyRelativePath(this.oBasicTweet, target,0, 1))
-    }
-    console.dir(data)
   }
 
   onCloseDialog() {

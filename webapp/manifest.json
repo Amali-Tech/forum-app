@@ -59,7 +59,8 @@
 					"groupId": "$direct",
 					"metadataUrlParams": {
 						"sap-documentation": "heading"
-					}
+					},
+					"operationMode" : "Server"
 				}
 			},
 			"i18n": {

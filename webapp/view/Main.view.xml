@@ -22,7 +22,18 @@
 				</content>
 			</Panel>
 			<Panel class="sapUiMediumMarginTop" headerText="Threads">
+
 				<NotificationList id="threadList" items="{path: 'generalThread>/Threads', parameters: {operationMode: 'Server'}}">
+					<headerToolbar>
+						<Toolbar>
+							<Title text="{i18n>listSearchTitle}"/>
+							<ToolbarSpacer/>
+							<SearchField
+								width="50%"
+								search=".onSearchThread"
+							/>
+						</Toolbar>
+					</headerToolbar>
 					<items>
 						<NotificationListItem
 										type="Navigation"

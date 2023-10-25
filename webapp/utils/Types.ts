@@ -17,6 +17,7 @@ export interface IoBasicTweet{
 }
 
 export interface IBasicTweet {
+  id?: string
   title: string
   content: string
 }
@@ -30,4 +31,9 @@ interface iTweet extends IBasicTweet{
 export const MODELNAMES  = {
   generalThread: "generalThread",
   tweetUpdate: "tweetUpdate",
+}
+
+export const VIEWIDS = {
+  threadListID: "threadList",
+  threadSearchField: "threadSearchField",
 }
