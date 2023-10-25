@@ -42,6 +42,18 @@ export default abstract class BaseController extends Controller {
 		return (oModel.getResourceBundle() as ResourceBundle).getText(key);
 	}
 
+	public getODataProperty(source: any, position: int): string {
+		return Object.keys(source)[position];
+	}
+
+	private getODataSubProperty(source: any, target: string, sub: int): string {
+		return Object.keys(source[target])[sub]
+	}
+
+	protected getODataPropertyRelativePath(source: any, target: string, head: int, sub: int): string {
+		return "/".concat(this.getODataProperty(source, head)).concat("/").concat(this.getODataSubProperty(source, target, sub))
+	}
+
 	/**
 	 * Convenience method for getting the view model by name in every controller of the application.
 	 * @param [sName] The model name

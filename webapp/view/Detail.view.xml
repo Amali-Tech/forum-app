@@ -17,7 +17,7 @@
 						}">
 				<FeedListItem sender="{path: 'generalThread>author_ID', formatter: '.getAuthorName' }"
 				              timestamp="{generalThread>createdAt}" text="{generalThread>content}" showIcon="false">
-<!--					<FeedListItemAction text="{i18n>editText}" icon="sap-icon://edit" key="edit" press=""/>-->
+					<FeedListItemAction text="{i18n>editText}" icon="sap-icon://edit" key="edit" press=".onOpenDialog"/>
 <!--					<FeedListItemAction text="{i18n>deleteText}" icon="sap-icon://delete" key="delete" press=".onDelete"/>-->
 				</FeedListItem>
 			</List>

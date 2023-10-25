@@ -15,7 +15,6 @@ import Dialog from "sap/m/Dialog";
 import Control from "sap/ui/core/Control";
 import Filter from "sap/ui/model/Filter";
 import FilterOperator from "sap/ui/model/FilterOperator";
-import SearchField from "sap/m/SearchField";
 
 /**
  * @namespace sov.comp.amalitech.forum.controller
@@ -40,18 +39,6 @@ export default class Main extends BaseController {
   }
   formatter = formatter
   pDialog: Promise<Control | Control[]> = null
-
-  private getODataProperty(source: any, position: int): string {
-    return Object.keys(source)[position];
-  }
-
-  private getODataSubProperty(source: any, target: string, sub: int): string {
-    return Object.keys(source[target])[sub]
-  }
-
-  private getODataPropertyRelativePath(source: any, target: string, head: int, sub: int): string {
-    return "/".concat(this.getODataProperty(source, head)).concat("/").concat(this.getODataSubProperty(source, target, sub))
-  }
 
   public onInit() {
     this.getView().setModel(new JSONModel(this.oData));
