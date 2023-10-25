@@ -38,6 +38,9 @@
 							<buttons width="200px">
 								<Button text="{path: 'generalThread>upvotes', formatter: '.formatter.voteFormatter'}" icon="sap-icon://thumb-up" press=".onUpVote"/>
 								<Button text="{path: 'generalThread>downvotes', formatter: '.formatter.voteFormatter'}"  icon="sap-icon://thumb-down" press=".onDownVote"/>
+							</buttons>
+							<buttons title="Actions">
+								<Button text="{i18n>threadBtnUpdate}" icon="sap-icon://edit-outside" press=".onOpenUpdateDialog"/>
 								<Button text="{i18n>threadBtnDelete}" icon="sap-icon://delete" press=".onDelete"/>
 							</buttons>
 						</NotificationListItem>

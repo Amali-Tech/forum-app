@@ -12,10 +12,22 @@ export interface IoTweet {
   tweet: iTweet
 }
 
-interface iTweet {
+export interface IoBasicTweet{
+  update: IBasicTweet
+}
+
+export interface IBasicTweet {
   title: string
   content: string
+}
+
+interface iTweet extends IBasicTweet{
   upVote: number
   downVote: number
   author_ID: string
+}
+
+export const MODELNAMES  = {
+  generalThread: "generalThread",
+  tweetUpdate: "tweetUpdate",
 }
